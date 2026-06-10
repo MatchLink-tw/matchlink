@@ -138,6 +138,18 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,160,60,0.3);border-radius:3px}
 
+/* ── Illustration styles ── */
+.illus-banner{width:100%;border-radius:18px;overflow:hidden;margin-bottom:14px;display:block}
+.illus-inline{display:block;margin:0 auto}
+.illus-float{float:right;margin:-8px -4px 8px 12px;flex-shrink:0}
+
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes sparkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+@keyframes coinSpin{0%{transform:rotateY(0deg)}100%{transform:rotateY(360deg)}}
+@keyframes wave{0%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}100%{transform:rotate(-5deg)}}
+
+.float-anim{animation:floatY 3s ease-in-out infinite}
+.sparkle-anim{animation:sparkle 2s ease-in-out infinite}
 
 </style>
 </head>
@@ -146,6 +158,58 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
 <div id="auth-screen">
   <div class="auth-wrap">
     <div class="brand-header">
+      <!-- Login screen illustration -->
+      <div style="margin-bottom:18px">
+        <svg class="illus-inline float-anim" width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Stars scattered -->
+          <circle cx="15" cy="18" r="3" fill="#ffb347" opacity="0.7"/>
+          <circle cx="125" cy="12" r="2" fill="#ff8c00" opacity="0.6"/>
+          <circle cx="130" cy="45" r="3.5" fill="#ffb347" opacity="0.5"/>
+          <circle cx="10" cy="60" r="2" fill="#ff6b35" opacity="0.6"/>
+          <!-- Platform / ground -->
+          <ellipse cx="70" cy="100" rx="45" ry="7" fill="rgba(255,160,60,0.15)"/>
+          <!-- Character body -->
+          <rect x="50" y="58" width="40" height="34" rx="12" fill="#ff8c00"/>
+          <!-- Shirt pattern lines -->
+          <rect x="66" y="62" width="8" height="26" rx="4" fill="rgba(255,255,255,0.2)"/>
+          <!-- Arms -->
+          <rect x="34" y="62" width="18" height="10" rx="5" fill="#ff8c00" transform="rotate(-15,34,62)"/>
+          <rect x="88" y="60" width="18" height="10" rx="5" fill="#ff8c00" transform="rotate(15,106,62)"/>
+          <!-- Hand left - wave -->
+          <circle cx="30" cy="56" r="7" fill="#ffcba4"/>
+          <!-- Hand right -->
+          <circle cx="111" cy="57" r="7" fill="#ffcba4"/>
+          <!-- Legs -->
+          <rect x="55" y="88" width="12" height="16" rx="6" fill="#3d2800"/>
+          <rect x="73" y="88" width="12" height="16" rx="6" fill="#3d2800"/>
+          <!-- Shoes -->
+          <rect x="52" y="100" width="16" height="8" rx="4" fill="#e05a00"/>
+          <rect x="70" y="100" width="16" height="8" rx="4" fill="#e05a00"/>
+          <!-- Head -->
+          <circle cx="70" cy="44" r="22" fill="#ffcba4"/>
+          <!-- Hair -->
+          <path d="M48 38 Q50 18 70 20 Q90 18 92 38 Q85 26 70 26 Q55 26 48 38Z" fill="#3d2800"/>
+          <!-- Eyes -->
+          <circle cx="62" cy="42" r="3.5" fill="#3d2800"/>
+          <circle cx="78" cy="42" r="3.5" fill="#3d2800"/>
+          <circle cx="63.5" cy="40.5" r="1.2" fill="white"/>
+          <circle cx="79.5" cy="40.5" r="1.2" fill="white"/>
+          <!-- Smile -->
+          <path d="M63 50 Q70 56 77 50" stroke="#c07030" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Cheeks -->
+          <circle cx="57" cy="48" r="5" fill="rgba(255,100,50,0.2)"/>
+          <circle cx="83" cy="48" r="5" fill="rgba(255,100,50,0.2)"/>
+          <!-- Coin floating beside -->
+          <circle cx="112" cy="30" r="12" fill="#ffb347"/>
+          <circle cx="112" cy="30" r="9" fill="#ff8c00" opacity="0.6"/>
+          <text x="112" y="35" text-anchor="middle" font-size="11" font-weight="900" fill="white">$</text>
+          <!-- Sparkles -->
+          <path d="M22 30 L24 26 L26 30 L24 34Z" fill="#ffb347" opacity="0.8"/>
+          <path d="M20 30 L24 30" stroke="#ffb347" stroke-width="1.5" opacity="0.8"/>
+          <path d="M24 26 L24 34" stroke="#ffb347" stroke-width="1.5" opacity="0.8"/>
+          <path d="M100 15 L102 11 L104 15 L102 19Z" fill="#ff6b35" opacity="0.7"/>
+        </svg>
+      </div>
       <div class="brand-logo-box">
         <div class="brand-dot">🌟</div>
         <div>
@@ -179,15 +243,22 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
   </div>
 
   <div id="global-bonus-bar" style="display:none;background:linear-gradient(135deg,rgba(0,229,160,0.12),rgba(0,144,255,0.08));border-bottom:1px solid rgba(0,229,160,0.25);padding:10px 18px;align-items:center;gap:12px;position:sticky;top:52px;z-index:90;backdrop-filter:blur(12px)">
-    <div style="font-size:18px">💰</div>
+    <!-- Animated coin SVG -->
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;animation:floatY 2.5s ease-in-out infinite">
+      <circle cx="16" cy="16" r="14" fill="#ffb347"/>
+      <circle cx="16" cy="16" r="11" fill="#ff8c00" opacity="0.7"/>
+      <text x="16" y="21" text-anchor="middle" font-size="13" font-weight="900" fill="white">$</text>
+      <circle cx="24" cy="7" r="3" fill="#2ecc71" opacity="0.9"/>
+      <circle cx="7" cy="9" r="2" fill="#ff6b35" opacity="0.7"/>
+    </svg>
     <div style="flex:1">
       <div style="display:flex;align-items:baseline;gap:6px">
         <span style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="global-bonus-amount">0</span>
-        <span style="font-size:11px;color:var(--muted)">元｜旅遊專用金</span>
+        <span style="font-size:11px;color:var(--muted)">元｜福利獎金</span>
       </div>
       <div style="font-size:10px;color:var(--muted);margin-top:1px">YT任務 + 店家任務 累積</div>
     </div>
-    <button id="global-withdraw-btn" style="background:linear-gradient(135deg,#00b894,var(--green));border:none;border-radius:10px;color:#fff;font-size:12px;font-weight:700;padding:8px 14px;cursor:pointer;font-family:inherit;flex-shrink:0;white-space:nowrap">✈️ 兌換旅遊專用金</button>
+    <button id="global-withdraw-btn" style="background:linear-gradient(135deg,#00b894,var(--green));border:none;border-radius:10px;color:#fff;font-size:12px;font-weight:700;padding:8px 14px;cursor:pointer;font-family:inherit;flex-shrink:0;white-space:nowrap">💰 福利獎金兌換</button>
   </div>
 
   <div class="tabs">
@@ -200,6 +271,38 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
 
   <!-- 簽到 TAB -->
   <div class="tab-pane active" id="tab-checkin">
+    <!-- Checkin illustration banner -->
+    <div style="background:linear-gradient(135deg,#fff3e0,#ffe0b2);border-radius:18px;padding:16px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;overflow:hidden;position:relative">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ffb347,#ff8c00,#ff6b35)"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:15px;font-weight:900;color:var(--accent3);margin-bottom:3px">每天打卡，累積力量 💪</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.6">連續簽到不斷線<br>週日休息，每天都要來喔！</div>
+      </div>
+      <svg width="90" height="80" viewBox="0 0 90 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="float-anim" style="flex-shrink:0">
+        <!-- Calendar base -->
+        <rect x="8" y="20" width="52" height="48" rx="8" fill="white" stroke="rgba(255,140,0,0.3)" stroke-width="1.5"/>
+        <rect x="8" y="20" width="52" height="16" rx="8" fill="#ff8c00"/>
+        <rect x="8" y="28" width="52" height="8" fill="#ff8c00"/>
+        <!-- Calendar rings -->
+        <rect x="22" y="14" width="5" height="12" rx="2.5" fill="#e05a00"/>
+        <rect x="41" y="14" width="5" height="12" rx="2.5" fill="#e05a00"/>
+        <!-- Calendar dots (days) -->
+        <circle cx="21" cy="48" r="3" fill="rgba(255,140,0,0.3)"/>
+        <circle cx="31" cy="48" r="3" fill="rgba(255,140,0,0.3)"/>
+        <circle cx="41" cy="48" r="3" fill="#2ecc71"/>
+        <circle cx="51" cy="48" r="3" fill="rgba(255,140,0,0.3)"/>
+        <circle cx="21" cy="58" r="3" fill="#2ecc71"/>
+        <circle cx="31" cy="58" r="3" fill="#2ecc71"/>
+        <circle cx="41" cy="58" r="3" fill="rgba(255,140,0,0.3)"/>
+        <!-- Big checkmark -->
+        <circle cx="68" cy="55" r="16" fill="#2ecc71" opacity="0.15"/>
+        <circle cx="68" cy="55" r="13" fill="#2ecc71"/>
+        <path d="M61 55 L66 61 L76 48" stroke="white" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Stars -->
+        <path d="M74 20 L75.5 17 L77 20 L74 20Z" fill="#ffb347"/>
+        <path d="M82 32 L83.5 29 L85 32 L82 32Z" fill="#ff6b35" opacity="0.7"/>
+      </svg>
+    </div>
     <div class="stats-row">
       <div class="stat-card"><div class="num" id="stat-total">0</div><div class="lbl">累積簽到天數</div></div>
       <div class="stat-card"><div class="num" id="stat-streak">0</div><div class="lbl">連續天數</div></div>
@@ -214,9 +317,22 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
     </div>
     <button class="checkin-btn" id="checkin-btn">🌟 立即簽到</button>
     <p style="color:var(--muted);font-size:10px;text-align:center;letter-spacing:.5px">⚠️ 只能簽今天，不能補簽</p>
+    <!-- Motivational streak illustration -->
     <div style="margin-top:14px;background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;overflow:hidden;position:relative">
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#005aff,#00e5a0)"></div>
-      <div style="font-size:36px">📅</div>
+      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <!-- Flame -->
+        <path d="M22 4 C22 4 28 12 28 18 C28 24 25 27 22 28 C19 27 16 24 16 18 C16 12 22 4 22 4Z" fill="#ff8c00"/>
+        <path d="M22 10 C22 10 25 15 25 19 C25 22.5 23.5 24.5 22 25.5 C20.5 24.5 19 22.5 19 19 C19 15 22 10 22 10Z" fill="#ffb347"/>
+        <path d="M22 16 C22 16 23.5 18.5 23.5 20.5 C23.5 22 22.8 23 22 23.5 C21.2 23 20.5 22 20.5 20.5 C20.5 18.5 22 16 22 16Z" fill="#fff9c4"/>
+        <!-- Ground -->
+        <ellipse cx="22" cy="39" rx="12" ry="3" fill="rgba(255,140,0,0.12)"/>
+        <!-- Stars / sparks -->
+        <circle cx="10" cy="14" r="2" fill="#ffb347" opacity="0.8"/>
+        <circle cx="34" cy="10" r="1.5" fill="#ff6b35" opacity="0.7"/>
+        <path d="M8 22 L9.5 19 L11 22 L8 22Z" fill="#ffb347" opacity="0.6"/>
+        <path d="M33 20 L34.5 17 L36 20 L33 20Z" fill="#ff8c00" opacity="0.6"/>
+      </svg>
       <div>
         <div style="font-size:13px;font-weight:700;color:var(--text)">每天打卡累積天數</div>
         <div style="font-size:11px;color:var(--muted);margin-top:3px;line-height:1.6">每天都來打卡哦！週日休息 😊<br>連續打卡不斷線，繼續加油！</div>
@@ -226,9 +342,46 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
 
   <!-- 店家任務 TAB -->
   <div class="tab-pane" id="tab-store">
-    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:18px 16px;margin-bottom:14px">
-      <div style="font-size:17px;font-weight:800;color:var(--text);margin-bottom:3px">🏪 店家實境收益任務</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:16px">真實探店 × 真誠回饋 × 共享成長</div>
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:18px 16px;margin-bottom:14px;overflow:hidden;position:relative">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ffb347,#ff8c00,#ff6b35)"></div>
+      <div style="display:flex;align-items:flex-start;gap:14px">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:17px;font-weight:800;color:var(--text);margin-bottom:3px">🏪 店家實境收益任務</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:16px">真實探店 × 真誠回饋 × 共享成長</div>
+        </div>
+        <!-- Store illustration -->
+        <svg width="70" height="65" viewBox="0 0 70 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="float-anim" style="flex-shrink:0;margin-top:-4px">
+          <!-- Store building -->
+          <rect x="8" y="28" width="54" height="32" rx="4" fill="#fff3e0" stroke="rgba(255,140,0,0.3)" stroke-width="1.5"/>
+          <!-- Roof/awning -->
+          <path d="M4 28 L35 12 L66 28Z" fill="#ff8c00"/>
+          <path d="M4 28 L35 12 L66 28Z" fill="url(#roofGrad)"/>
+          <defs>
+            <linearGradient id="roofGrad" x1="4" y1="20" x2="66" y2="20">
+              <stop offset="0%" stop-color="#ffb347"/>
+              <stop offset="100%" stop-color="#ff6b35"/>
+            </linearGradient>
+          </defs>
+          <!-- Door -->
+          <rect x="28" y="42" width="14" height="18" rx="7" fill="#e05a00" opacity="0.9"/>
+          <circle cx="39" cy="51" r="1.5" fill="white"/>
+          <!-- Windows -->
+          <rect x="11" y="35" width="14" height="11" rx="3" fill="#4fc3f7" opacity="0.7"/>
+          <rect x="45" y="35" width="14" height="11" rx="3" fill="#4fc3f7" opacity="0.7"/>
+          <!-- Window cross -->
+          <line x1="18" y1="35" x2="18" y2="46" stroke="white" stroke-width="1.2"/>
+          <line x1="11" y1="40.5" x2="25" y2="40.5" stroke="white" stroke-width="1.2"/>
+          <line x1="52" y1="35" x2="52" y2="46" stroke="white" stroke-width="1.2"/>
+          <line x1="45" y1="40.5" x2="59" y2="40.5" stroke="white" stroke-width="1.2"/>
+          <!-- Coin -->
+          <circle cx="57" cy="14" r="9" fill="#ffb347"/>
+          <circle cx="57" cy="14" r="6.5" fill="#ff8c00" opacity="0.5"/>
+          <text x="57" y="18.5" text-anchor="middle" font-size="9" font-weight="900" fill="white">$</text>
+          <!-- Stars -->
+          <circle cx="10" cy="14" r="2" fill="#ffb347" opacity="0.8"/>
+          <circle cx="20" cy="6" r="1.5" fill="#ff6b35" opacity="0.6"/>
+        </svg>
+      </div>
       <div style="background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.3);border-radius:10px;padding:12px 14px">
         <div style="font-size:12px;font-weight:700;color:#d4a017;margin-bottom:8px">🏆 任務獎勵金</div>
         <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text);margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid rgba(255,193,7,0.2)"><span>任務酬勞</span><span style="font-weight:700">500 元</span></div>
@@ -323,7 +476,40 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
     <div style="background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(0,144,255,0.08));border:1px solid rgba(124,58,237,0.25);border-radius:16px;padding:18px 16px;margin-bottom:14px;position:relative;overflow:hidden">
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#9b59b6,#ff8c00,#2ecc71)"></div>
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
-        <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#9b59b6,#ff8c00);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">🤖</div>
+        <!-- AI Robot illustration -->
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="float-anim" style="flex-shrink:0">
+          <!-- Antenna -->
+          <line x1="30" y1="5" x2="30" y2="13" stroke="#9b59b6" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="30" cy="4" r="3.5" fill="#ff8c00"/>
+          <!-- Head -->
+          <rect x="12" y="13" width="36" height="26" rx="8" fill="linear-gradient(135deg,#9b59b6,#ff8c00)"/>
+          <rect x="12" y="13" width="36" height="26" rx="8" fill="#7c3aed" opacity="0.9"/>
+          <!-- Eye screens -->
+          <rect x="17" y="20" width="10" height="8" rx="3" fill="#4fc3f7"/>
+          <rect x="33" y="20" width="10" height="8" rx="3" fill="#4fc3f7"/>
+          <!-- Eye shine -->
+          <circle cx="20" cy="22" r="1.5" fill="white" opacity="0.9"/>
+          <circle cx="36" cy="22" r="1.5" fill="white" opacity="0.9"/>
+          <!-- Mouth display -->
+          <rect x="20" y="31" width="20" height="4" rx="2" fill="rgba(255,255,255,0.2)"/>
+          <rect x="20" y="31" width="10" height="4" rx="2" fill="#2ecc71" opacity="0.8"/>
+          <!-- Ear buttons -->
+          <circle cx="10" cy="24" r="4" fill="#9b59b6"/>
+          <circle cx="10" cy="24" r="2" fill="#7c3aed"/>
+          <circle cx="50" cy="24" r="4" fill="#9b59b6"/>
+          <circle cx="50" cy="24" r="2" fill="#7c3aed"/>
+          <!-- Body -->
+          <rect x="18" y="40" width="24" height="16" rx="6" fill="#9b59b6" opacity="0.8"/>
+          <!-- Body panel -->
+          <rect x="23" y="44" width="14" height="6" rx="2" fill="rgba(255,255,255,0.2)"/>
+          <circle cx="26" cy="47" r="1.5" fill="#2ecc71"/>
+          <circle cx="30" cy="47" r="1.5" fill="#ff8c00"/>
+          <circle cx="34" cy="47" r="1.5" fill="#ff5f7e"/>
+          <!-- Sparkles -->
+          <circle cx="7" cy="45" r="1.5" fill="#ffb347" opacity="0.8"/>
+          <circle cx="53" cy="42" r="2" fill="#ff6b35" opacity="0.6"/>
+          <circle cx="55" cy="10" r="1.5" fill="#9b59b6" opacity="0.7"/>
+        </svg>
         <div>
           <div style="font-size:16px;font-weight:800;color:var(--text)">AI數據任務</div>
           <div style="font-size:11px;color:var(--muted);margin-top:2px">掌握熱勢 × 參與數據 × 回報任務</div>
@@ -360,15 +546,24 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
       </div>
     </div>
     <div id="withdraw-panel" style="display:none;background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,0.25);border-radius:14px;padding:16px;margin-bottom:14px">
-      <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:10px">✈️ 兌換旅遊專用金</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">請至平台提領後，在此登記金額，管理員確認後將從旅遊專用金扣除。</div>
+      <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:10px">💰 福利獎金兌換</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">請至平台提領後，在此登記金額，管理員確認後將從福利獎金扣除。</div>
       <input type="number" id="withdraw-amount" min="1" placeholder="輸入申請金額（元）" style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.85);border:1px solid rgba(0,229,160,0.35);border-radius:9px;color:var(--text);font-size:15px;outline:none;font-family:inherit;margin-bottom:10px">
       <div id="withdraw-pending-notice" style="display:none;color:#ffc800;font-size:12px;margin-bottom:10px">⏳ 已有一筆申請待審核，請等管理員確認後再申請。</div>
       <button id="withdraw-submit-btn" style="width:100%;padding:12px;background:linear-gradient(135deg,#00b894,var(--green));border:none;border-radius:9px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">送出申請</button>
     </div>
     <div class="section-title">▶️ YT 影音任務</div>
-    <div style="background:linear-gradient(135deg,rgba(255,0,0,0.06),rgba(0,144,255,0.06));border:1px solid rgba(255,0,0,0.15);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px">
-      <div style="font-size:36px;flex-shrink:0">▶️</div>
+    <div style="background:linear-gradient(135deg,rgba(255,0,0,0.06),rgba(0,144,255,0.06));border:1px solid rgba(255,0,0,0.15);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;overflow:hidden;position:relative">
+      <!-- YT illustration -->
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <rect x="2" y="8" width="48" height="36" rx="10" fill="#e53935"/>
+        <circle cx="26" cy="26" r="9" fill="rgba(255,255,255,0.2)"/>
+        <path d="M23 21 L34 26 L23 31Z" fill="white"/>
+        <!-- Sparkles around -->
+        <circle cx="6" cy="6" r="2" fill="#ffb347" opacity="0.8"/>
+        <circle cx="46" cy="6" r="2.5" fill="#ff8c00" opacity="0.6"/>
+        <circle cx="48" cy="46" r="1.5" fill="#ffb347" opacity="0.7"/>
+      </svg>
       <div>
         <div style="font-size:13px;font-weight:700;color:var(--text)">觀看 YouTube 影片賺取獎勵</div>
         <div style="font-size:11px;color:var(--muted);margin-top:2px">每部影片上傳截圖與心得，通過審核即入帳 <strong style="color:var(--green)">100元</strong></div>
@@ -838,7 +1033,7 @@ document.getElementById('withdraw-submit-btn').addEventListener('click', async (
   if (!amt || amt <= 0) { showToast('請輸入有效金額', true); return; }
   const memberData = await fsGet(`members/${currentUID}`);
   const bonus = (memberData && memberData.bonus) || 0;
-  if (amt > bonus) { showToast(`金額超過旅遊專用金餘額（$${bonus}）`, true); return; }
+  if (amt > bonus) { showToast(`金額超過福利獎金餘額（$${bonus}）`, true); return; }
   const btn = document.getElementById('withdraw-submit-btn');
   btn.textContent = '送出中...'; btn.disabled = true;
   try {
