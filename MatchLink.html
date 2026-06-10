@@ -552,14 +552,16 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
       <div id="withdraw-pending-notice" style="display:none;color:#ffc800;font-size:12px;margin-bottom:10px">⏳ 已有一筆申請待審核，請等管理員確認後再申請。</div>
       <button id="withdraw-submit-btn" style="width:100%;padding:12px;background:linear-gradient(135deg,#00b894,var(--green));border:none;border-radius:9px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">送出申請</button>
     </div>
-    <div class="section-title">▶️ YT 影音任務</div>
+  </div>
+
+  <!-- YT任務 TAB -->
+  <div class="tab-pane" id="tab-tasks">
     <div style="background:linear-gradient(135deg,rgba(255,0,0,0.06),rgba(0,144,255,0.06));border:1px solid rgba(255,0,0,0.15);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;overflow:hidden;position:relative">
       <!-- YT illustration -->
       <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
         <rect x="2" y="8" width="48" height="36" rx="10" fill="#e53935"/>
         <circle cx="26" cy="26" r="9" fill="rgba(255,255,255,0.2)"/>
         <path d="M23 21 L34 26 L23 31Z" fill="white"/>
-        <!-- Sparkles around -->
         <circle cx="6" cy="6" r="2" fill="#ffb347" opacity="0.8"/>
         <circle cx="46" cy="6" r="2.5" fill="#ff8c00" opacity="0.6"/>
         <circle cx="48" cy="46" r="1.5" fill="#ffb347" opacity="0.7"/>
