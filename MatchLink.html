@@ -144,6 +144,17 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
 @keyframes wave{0%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}100%{transform:rotate(-5deg)}}
 .float-anim{animation:floatY 3s ease-in-out infinite}
 .sparkle-anim{animation:sparkle 2s ease-in-out infinite}
+
+/* ✈️ 旅遊 */
+.travel-filter-btn{padding:6px 13px;border-radius:20px;font-size:11px;font-weight:800;border:2px solid rgba(255,160,60,0.25);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;transition:all .2s}
+.travel-filter-btn.active{background:linear-gradient(135deg,#ffb347,#ff8c00);color:#fff;border-color:var(--accent);box-shadow:0 3px 10px rgba(255,140,0,0.3)}
+.travel-card{background:var(--surface);border:2px solid rgba(255,160,60,0.15);border-radius:16px;margin-bottom:12px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 2px 10px rgba(255,140,0,0.07)}
+.travel-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(255,140,0,0.15)}
+.travel-card-body{padding:12px 14px}
+.travel-card-title{font-size:13px;font-weight:800;color:var(--text);line-height:1.4;margin-bottom:6px}
+.travel-card-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.travel-tag{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800}
+.travel-price{font-size:16px;font-weight:900;color:var(--accent2)}
 </style>
 </head>
 <body>
@@ -241,6 +252,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
     <button class="tab-btn" data-tab="tab-tasks">📋 YT任務</button>
     <button class="tab-btn" data-tab="tab-store">🏪 店家任務</button>
     <button class="tab-btn" data-tab="tab-ai">🤖 AI任務</button>
+    <button class="tab-btn" data-tab="tab-travel">✈️ 旅遊</button>
     <button class="tab-btn" data-tab="tab-setting">⚙️ 設定</button>
   </div>
 
@@ -468,7 +480,32 @@ body::after{content:'';position:fixed;inset:0;z-index:0;
     <div id="ai-slots-container"></div>
   </div>
 
-  <!-- 設定 TAB -->
+    <!-- ✈️ 旅遊 TAB -->
+  <div class="tab-pane" id="tab-travel">
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+      <button class="travel-filter-btn active" onclick="setTravelFilter('all',this)">🌍 全部</button>
+      <button class="travel-filter-btn" onclick="setTravelFilter('japan',this)">🇯🇵 日本</button>
+      <button class="travel-filter-btn" onclick="setTravelFilter('korea',this)">🇰🇷 韓國</button>
+      <button class="travel-filter-btn" onclick="setTravelFilter('thai',this)">🇹🇭 泰國</button>
+      <button class="travel-filter-btn" onclick="setTravelFilter('sea',this)">🌊 東南亞</button>
+      <button class="travel-filter-btn" onclick="setTravelFilter('europe',this)">🏰 歐洲</button>
+      <button class="travel-filter-btn" onclick="setTravelFilter('other',this)">✈️ 其他</button>
+    </div>
+    <div id="travel-list"></div>
+  </div>
+
+  <!-- 旅遊詳情 Modal -->
+  <div id="travel-modal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.55);align-items:flex-end;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+    <div style="background:var(--surface);border-radius:24px 24px 0 0;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:20px 16px 32px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div id="modal-title" style="font-size:13px;font-weight:900;color:var(--accent3);flex:1;padding-right:10px;line-height:1.5"></div>
+        <button onclick="document.getElementById('travel-modal').style.display='none'" style="background:rgba(255,160,60,0.12);border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;color:var(--muted);flex-shrink:0;line-height:32px">×</button>
+      </div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+<!-- 設定 TAB -->
   <div class="tab-pane" id="tab-setting">
     <div style="max-width:420px;margin:0 auto;padding-top:8px">
       <div style="background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:22px 20px;margin-bottom:16px">
@@ -534,12 +571,12 @@ import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from 'https://
 import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBFuEf_EotUUJKj1eI4A261XQzfxwYzFh4",
-  authDomain: "matchlink-df063.firebaseapp.com",
-  projectId: "matchlink-df063",
-  storageBucket: "matchlink-df063.firebasestorage.app",
-  messagingSenderId: "1014961922478",
-  appId: "1:1014961922478:web:a6b847823ac2901f66a83f",
+  apiKey: "AIzaSyARHDAAuQbqYVayCAfA666LIXjR89hyvxY",
+  authDomain: "technova-dffa6.firebaseapp.com",
+  projectId: "technova-dffa6",
+  storageBucket: "technova-dffa6.firebasestorage.app",
+  messagingSenderId: "983643260882",
+  appId: "1:983643260882:web:9d1921bcfeb43b90cd2a0b",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -1049,6 +1086,123 @@ async function uploadScreenshot(taskId, taskName, fileInput, submitBtn, commentE
     submitBtn.textContent = '📤 送出截圖與心得等候審核'; submitBtn.disabled = false;
   }
 }
+
+// ── 旅遊資料 ──
+const TRAVEL_DATA = [
+  { id:1, cat:'japan', flag:'🇯🇵', country:'日本', img:'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80', title:'九州仲夏風·由布院之森（草原星空夜·夢語湯布院5日）', date:'7月12/26', price:'$61,900起', days:5, highlight:'草原星空・由布院温泉・森之呼吸', desc:'被《米其林旅遊指南》評為三星級的由布院，是九州最夢幻的溫泉小鎮。金鱗湖在晨霧中波光粼粼，湖畔古樸的木造建築倒映水中，宛如一幅浮世繪。\n\n沿著湯の坪街道信步而行，特色小店、手工藝品、和牛料理一字排開，讓人流連忘返。夜晚入住傳統旅館，身披浴衣於露天風呂中仰望星河，蟲鳴與溫泉聲交織，是城市人最渴望的療癒時光。', features:['🌸 金鱗湖晨霧散策，攝影絕佳聖地','♨️ 入住正統日式溫泉旅館，附露天風呂','🐄 品嚐九州名產豐後牛炭火燒肉','🌋 近距離觀賞阿蘇活火山壯觀景色','🌉 九重夢大吊橋，日本最高懸吊橋'] },
+  { id:2, cat:'japan', flag:'🇯🇵', country:'日本', img:'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80', title:'步履寫詩·走進山海秘境（熊野古道·東方朝聖之路6日）', date:'9月03/10', price:'$99,900起', days:6, highlight:'熊野古道・世界遺產・山海秘境', desc:'熊野古道是日本唯一入選UNESCO世界遺產的朝聖之路，千年以來無數皇族、武將沿此道前往熊野三山朝拜。穿行於杉林蔽天的古道，腳踩苔蘚青石，彷彿穿越回平安時代。\n\n那智瀑布落差133公尺，水聲轟然，被視為神的化身供奉千年。鄰近的勝浦溫泉藏於峭壁洞窟之中，乘小舟入浴，堪稱世界絕景。', features:['🏛️ 世界遺產熊野古道導覽健行','💧 那智大瀧——日本落差最大神聖瀑布','🚣 勝浦洞窟溫泉，舟渡入浴絕世體驗','⛩️ 熊野三山完整參拜，感受千年靈氣','🌊 紀伊半島海岸線，奇岩怪石景色壯麗'] },
+  { id:3, cat:'japan', flag:'🇯🇵', country:'日本', img:'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&q=80', title:'立山三段染·秋畫上高地（峽谷鐵道縱·犬山英迪格6日）', date:'11月10/17', price:'$78,900起', days:6, highlight:'立山秋色・上高地・峽谷鐵道', desc:'立山黑部阿爾卑斯山脈路線，是日本最壯麗的山岳觀光路線，11月的「三段染」奇景——山頂白雪、腰間金紅、谷底翠綠，三層色彩同時呈現，美得令人屏息。\n\n上高地被稱為「日本的優勝美地」，梓川倒映岳樺紅葉，大正池靜謐如鏡，每一步都是風景明信片。', features:['🏔️ 立山黑部三段染，一山看盡三季色彩','🚠 纜車＋電車＋高原巴士，五種交通接力','💧 黑部水庫——日本最大拱壩壯觀放水','🍁 上高地梓川楓紅，鏡面倒映絕美秋景','🏯 犬山城，日本現存最古老天守閣之一'] },
+  { id:4, cat:'japan', flag:'🇯🇵', country:'日本', img:'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80', title:'東京迪士尼·富士急樂園（歐風輕井澤·哈利波特三大樂園6日）', date:'8月01/22', price:'$79,900起', days:6, highlight:'迪士尼・富士急・哈利波特', desc:'一次解鎖日本三大頂級主題樂園！東京迪士尼、富士急樂園、環球影城哈利波特魔法世界，三大樂園截然不同的體驗，滿足所有年齡層。\n\n樂園以外，輕井澤的歐式街道、高原空氣與美食購物，是完美的放鬆中繼站。', features:['🏰 東京迪士尼——最新城堡區全體驗','🎢 富士急最強雲霄飛車，挑戰極限','🧙 哈利波特魔法世界，走進電影現場','🌿 輕井澤高原散步，舊輕銀座購物','🗻 富士山遠眺，絕美自然背景'] },
+  { id:5, cat:'japan', flag:'🇯🇵', country:'日本', img:'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=800&q=80', title:'北海道道東·阿寒湖秋水（層雲峽伊人·秋色紅葉狩7日）', date:'10月03/17', price:'$104,900起', days:7, highlight:'阿寒湖・層雲峽・北海道紅葉', desc:'道東是北海道最後一塊秘境，阿寒湖是日本最大的火口湖，湖中生長著全球珍稀的毬藻，愛努族原住民在湖畔世代守護這份神秘。\n\n層雲峽的楓紅在10月達到巔峰，搭乘纜車登上黑岳，可將大雪山系的壯麗秋景盡收眼底。', features:['🌿 阿寒湖毬藻觀察，全球珍稀自然奇觀','🍁 層雲峽纜車，大雪山頂俯瞰秋景','🌊 摩周湖「神之湖」，透明度世界第一','🦀 道東海鮮饗宴，帝王蟹＋生海膽直送','🪶 愛努族傳統文化體驗'] },
+  { id:6, cat:'korea', flag:'🇰🇷', country:'韓國', img:'https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=800&q=80', title:'穿越過去到現在·遇見千年歷史（釜山+慶洲私家遊5日）', date:'10月05/18', price:'$114,500起', days:5, highlight:'慶洲古都・釜山海景・千年文化', desc:'慶洲是韓國保存最完整的千年古都，曾是新羅王朝的首都長達一千年。佛國寺的八九座建築被列為國寶，石窟庵的佛像雕刻堪稱東亞藝術巔峰。\n\n釜山是韓國最生猛的港口城市——札嘎其魚市場的新鮮海產、甘川洞文化村的彩色階梯建築，一古一今形成強烈對比。', features:['⛩️ 佛國寺＋石窟庵，UNESCO世界遺產','🏺 慶洲國立博物館，新羅千年寶藏','🎨 甘川洞彩色文化村，韓劇熱門取景地','🦐 札嘎其魚市場，現撈現吃最新鮮','🌊 海雲台海灘散步'] },
+  { id:7, cat:'korea', flag:'🇰🇷', country:'韓國', img:'https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?w=800&q=80', title:'走進韓國·饕餮韓食（首爾+仁川私家遊5日）', date:'10月16/25', price:'$138,000起', days:5, highlight:'首爾美食・仁川・韓食文化', desc:'這趟旅程以「吃遍韓國」為核心——廣藏市場的綠豆煎餅、益善洞韓屋村的傳統韓定食、弘大街頭的炸雞配生啤，讓你的每一餐都是全新體驗。\n\n行程特別安排韓食料理課程，由專業大廚帶領親手製作泡菜、石鍋拌飯。', features:['🍜 廣藏市場、弘大、東大門美食全攻略','👑 景福宮換崗儀式，宮廷文化親身體驗','📚 Coex星空圖書館，首爾最美打卡聖地','🥬 韓食料理課程，學做泡菜帶回家','🌃 N首爾塔夜景'] },
+  { id:8, cat:'thai', flag:'🇹🇭', country:'泰國', img:'https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=800&q=80', title:'清邁百年私房（靜謐Anantara·洲際古韻風華5日）', date:'7月17/22', price:'$59,900起', days:5, highlight:'清邁古城・Anantara酒店・蘭納文化', desc:'清邁是泰北蘭納王朝的舊都，護城河環繞的古城內藏有三百多座金碧輝煌的古廟，其中素帖寺高踞山巔，俯瞰清邁全景。\n\n入住榮獲金旅獎肯定的頂級Anantara渡假村，每間房間都是藝術品，專屬管家服務讓你的每個早晨都從奢華開始。', features:['🏛️ 素帖山寺，泰北最神聖的山頂寺廟','🐘 大象生態保護區，道德旅遊近距離互動','💆 Anantara頂級SPA，泰式草藥全身療程','🛍️ 周日夜市，手工藝品血拼天堂','☕ 瀾滄江畔咖啡，清邁最悠閒的午後'] },
+  { id:9, cat:'thai', flag:'🇹🇭', country:'泰國', img:'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?w=800&q=80', title:'蘇梅·泰Chill旅（藏在海角的優雅·悠時光輕奢6日）', date:'9月03/16', price:'$79,900起', days:6, highlight:'蘇梅島・海景泳池・輕奢度假', desc:'蘇梅島純白沙灘、椰影婆娑、清澈碧藍，本次住宿精選島上最具口碑的輕奢度假村，無邊際泳池直面泰國灣，每個傍晚都能欣賞到夕陽沉入海平線的震撼瞬間。', features:['🏊 無邊際泳池，俯瞰泰國灣絕美海景','🤿 安通海洋公園浮潛，珊瑚礁熱帶魚群','🌅 日落沙灘BBQ晚宴','💆 正統泰式SPA，全身精油按摩','🦞 查汶海鮮市場，生猛活跳直接烤來吃'] },
+  { id:10, cat:'thai', flag:'🇹🇭', country:'泰國', img:'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&q=80', title:'泰北雙城·清邁洲際美學（清萊安納塔拉·蘭納文化饗旅6日）', date:'8月05/26', price:'$93,900起', days:6, highlight:'清邁・清萊・白廟・蘭納文化', desc:'清萊白廟（Wat Rong Khun）全白廟身鑲嵌鏡片，在陽光下如鑽石閃耀，令所有訪客嘆為觀止。藍廟的深邃寶藍與白廟形成強烈對比，同樣令人過目難忘。', features:['⚪ 清萊白廟——泰國最美當代佛教建築','💙 藍廟深邃寶藍，藝術震撼指數滿分','🌿 安納塔拉山林泳池','🏮 清邁週日夜市，蘭納傳統手工藝品','🛕 雙城古廟巡禮'] },
+  { id:11, cat:'sea', flag:'🇻🇳', country:'越南', img:'https://images.unsplash.com/photo-1555921015-5532091f6026?w=800&q=80', title:'潮中越·慢遊會安（奢旅峴港洲際·星廚美味饗宴5日）', date:'7月17/31', price:'$71,900起', days:5, highlight:'會安古鎮・峴港洲際・米其林', desc:'會安古鎮是越南保存最完好的歷史貿易港，黃色牆壁、紅燈籠、木雕拱廊，被UNESCO列為世界文化遺產。夜晚會安關閉電燈只點亮彩色燈籠，是世界上最浪漫的夜晚之一。', features:['🏮 會安燈籠節，世界最浪漫的古鎮夜晚','🌊 峴港洲際私人沙灘，三公里純白細沙','⭐ 米其林星廚料理','🚲 古鎮自行車漫遊','🎨 燈籠DIY手作課程'] },
+  { id:12, cat:'sea', flag:'🇻🇳', country:'越南', img:'https://images.unsplash.com/photo-1528127269322-539801943592?w=800&q=80', title:'北越雙城記·下龍灣洲際（海景2晚·鐵道景觀列車·索菲特傳奇5日）', date:'8月08/29', price:'$61,900起', days:5, highlight:'下龍灣・河內・鐵道咖啡街', desc:'下龍灣一千六百多座石灰岩島嶼自海面拔地而起，晨霧環繞間如同仙境，UNESCO世界遺產實至名歸。搭乘越南統一鐵道列車，窗外稻田、山脈、海岸線連續變換，是最治癒的旅行電影。', features:['⛵ 下龍灣豪華郵輪2晚','🚂 越南統一鐵道景觀列車','🏛️ 河內舊城36行街','☕ 鐵道咖啡街，火車從身旁呼嘯而過','🍜 河內老字號河粉Pho'] },
+  { id:13, cat:'sea', flag:'🇲🇾', country:'馬來西亞', img:'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800&q=80', title:'吉隆坡璀璨夜·馬六甲古風華（Fun玩馬來西亞5日）', date:'7月08/22', price:'$57,900起', days:5, highlight:'吉隆坡・馬六甲古城・多元文化', desc:'吉隆坡的雙峰塔夜景是全球最上鏡的都市景觀之一。馬六甲是UNESCO世界遺產古城，荷蘭廣場的磚紅色古建築、雞場街的南洋老店、娘惹傳統料理，五百年殖民歷史留下最精彩的印記。', features:['🏙️ 雙峰塔空中橋廊，俯瞰吉隆坡全景','🍲 娘惹料理體驗','🏛️ 馬六甲UNESCO古城','🛺 三輪車漫遊雞場街','🌆 河岸燈光秀'] },
+  { id:14, cat:'sea', flag:'🇲🇾', country:'馬來西亞', img:'https://images.unsplash.com/photo-1567449303183-ae0d6ed1498b?w=800&q=80', title:'馬國Chill旅·私享綠中海（宿泊天際Hyatt·米其林饗宴5日）', date:'7月15/29', price:'$73,900起', days:5, highlight:'天際Hyatt・米其林・綠中海', desc:'天際Hyatt坐落雙峰塔旁的超高樓層，每間房間都將城市天際線變為私人風景。頂樓米其林餐廳以馬來西亞在地食材結合法式料理技藝，創作令人驚豔的當代馬來料理。', features:['🏨 天際Hyatt頂樓無邊際泳池','⭐ 米其林餐廳晚宴','🌳 FRIM熱帶雨林空中步道','🌃 雙峰塔夜景','🍹 Sky Bar日落雞尾酒'] },
+  { id:15, cat:'sea', flag:'🇲🇾', country:'馬來西亞', img:'https://images.unsplash.com/photo-1501780392773-287d506245a5?w=800&q=80', title:'大馬三城慢旅（舌尖南洋食光·漫步殖民風華6日）', date:'8月07/21', price:'$61,900起', days:6, highlight:'三城慢旅・南洋美食・殖民建築', desc:'喬治市是CNN評選的「全球最值得探訪街頭美食城市」之首，炭燒蝦麵、咖哩魚頭的香味從清晨就開始飄散。街頭藝術壁畫讓整座城市變成露天美術館。', features:['🍜 喬治市街頭美食，CNN全球第一美食城','🎨 喬治市壁畫藝術街','🏛️ 荷蘭廣場歷史遺跡','💙 娘惹藍屋','🛒 中央市場購物'] },
+  { id:16, cat:'sea', flag:'🇲🇻', country:'馬爾地夫', img:'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&q=80', title:'FUN趣馬爾地夫~海上豪華樂園~五星思雅瑪世界渡假村7日', date:'10月05/12/19', price:'$118,000起', days:7, highlight:'水上屋・珊瑚礁・五星渡假村', desc:'思雅瑪世界渡假村是馬爾地夫面積最大的水上屋渡假村，專屬碼頭直連水上屋，踏出房門即是無盡蔚藍。水下房間可直接欣賞珊瑚礁魚群悠游。\n\n清晨的海豚watch、沙洲野餐、深潛浮潛，這裡的星空沒有光汙染，是此生最難忘的夜晚。', features:['🏠 海上水上屋，踏出門即是印度洋','🐠 水晶清澈珊瑚礁，與魚群共舞','🐬 海豚watch出海','⭐ 零光汙染星空，沙洲上的銀河夜晚','🤿 深潛＋浮潛＋獨木舟全包套'] },
+  { id:17, cat:'europe', flag:'🇬🇧', country:'英國/法國', img:'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80', title:'倫敦風華：藍牌導遊·皇室足跡·藝術盛宴10日', date:'10月16', price:'$298,000起', days:10, highlight:'倫敦・巴黎・藍牌導遊', desc:'倫敦藍牌導遊（Blue Badge Guide）是英國最高規格的官方認證，帶你走進白金漢宮、西敏寺、溫莎城堡的真實歷史脈絡。\n\n行程亦納入巴黎二日，凡爾賽宮的金碧輝煌、羅浮宮的藝術震撼、塞納河的落日遊船，讓這趟歐洲之旅無懈可擊。', features:['🏅 藍牌導遊全程帶領，英國最高認證','👑 白金漢宮衛兵交接','🏛️ 大英博物館深度導覽','🗼 巴黎凡爾賽宮','🚢 塞納河日落遊船'] },
+  { id:18, cat:'europe', flag:'🇫🇷', country:'法國', img:'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&q=80', title:'雙師帶路-南法建築·法國孛艮地酒莊12日', date:'10月03', price:'$269,000起', days:12, highlight:'南法・孛艮地酒莊・建築美學', desc:'由建築史學者與侍酒師大師聯袂帶路，普羅旺斯薰衣草田、亞維農教皇宮、孛艮地頂級酒莊的地下酒窖巡禮，讓你真正讀懂一瓶好酒背後的風土哲學。', features:['🏛️ 建築史學者帶路，南法建築深度解析','🍷 頂級酒莊品酒課程，侍酒師大師親授','💜 普羅旺斯薰衣草田','🏰 亞維農教皇宮UNESCO遺產','🌊 蔚藍海岸尼斯、摩納哥'] },
+  { id:19, cat:'europe', flag:'🇨🇭', country:'瑞士', img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80', title:'瑞士鐵道—三大景觀列車·五大名峰·策馬特·頭等艙Swiss Pass15日', date:'9月18', price:'$253,000起', days:15, highlight:'景觀列車・馬特洪峰・策馬特', desc:'冰河快車穿越291座橋樑、91個隧道橫貫阿爾卑斯核心；伯連納快車以UNESCO遺產路線攀越海拔2,253公尺。策馬特是無車城市，馬特洪峰那標誌性三角輪廓，搭乘齒輪火車登上戈爾內格拉特，五座四千公尺以上雪峰同框。', features:['🚂 冰河快車頭等艙，橫貫阿爾卑斯最美路線','🏔️ 馬特洪峰全景','❄️ 戈爾內格拉特五峰同框，海拔3,089公尺','🎿 策馬特無車小鎮','🌄 伯連納UNESCO鐵道'] },
+  { id:20, cat:'europe', flag:'🇨🇭', country:'瑞士', img:'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800&q=80', title:'瑞士巴士—悠然慢遊·絕美三大名峰·秘境雙湖13日', date:'9月21', price:'$266,000起', days:13, highlight:'三大名峰・秘境雙湖・慢旅瑞士', desc:'少女峰海拔3,454公尺，是「歐洲之巔」，冰原廣袤白茫令人震撼。秘境雙湖——奧施南與托馬湖人跡罕至，在湖畔木屋享用起司火鍋，這才是瑞士最真實的樣子。', features:['🏔️ 少女峰「歐洲之巔」，海拔3,454公尺','🎬 艾格峰＋卡拉羅007迴轉餐廳','💎 奧施南秘境湖','🧀 山間木屋起司火鍋','🌸 格林德瓦花谷健行'] },
+  { id:21, cat:'other', flag:'🇦🇪', country:'杜拜', img:'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80', title:'創意杜拜阿布達比沙迦（帆船酒店·法拉利樂園·羅浮宮·沙漠滑沙8日）', date:'9月06', price:'$194,900起', days:8, highlight:'帆船酒店・沙漠滑沙・羅浮宮', desc:'帆船酒店（Burj Al Arab）是全球最奢華酒店的代名詞，七星級的下午茶體驗讓你感受何謂極致禮遇。入夜後，哈里發塔燈光秀以世界最大的投影幕為畫布，壯觀無比。', features:['🛳️ 帆船酒店七星午茶','⚡ 哈里發塔頂層觀景台，124樓俯瞰杜拜','🏎️ 法拉利世界極速雲霄飛車','🎨 阿布達比羅浮宮','🐪 沙漠滑沙＋駱駝騎乘'] },
+  { id:22, cat:'other', flag:'🇨🇦', country:'加拿大', img:'https://images.unsplash.com/photo-1531169628054-836a35a6a56b?w=800&q=80', title:'美麗星世界黃刀鎮洛磯12日（黃刀極光·班夫國家公園·硫磺山纜車）', date:'10月14', price:'$209,900起', days:12, highlight:'極光・洛磯山・班夫國家公園', desc:'黃刀鎮位於北緯62度，是全球觀賞北極光機率最高的城市之一，10月極光出現頻率超過70%。當綠色光帶在夜空中搖曳舞動，那份震撼是任何文字都無法描述的。\n\n露易絲湖冰川藍在夕陽下發出令人心醉的藍綠色光芒，哥倫比亞冰原雪車踏上一萬年古老冰川。', features:['🌌 黃刀鎮極光觀測，出現率70%以上','💙 露易絲湖冰川藍，世界最美高山湖泊','❄️ 哥倫比亞冰原雪車，踏上萬年古冰川','🍁 班夫楓紅季，洛磯山脈最美秋天','🐺 傑士伯國家公園野生動物'] },
+];
+
+const CAT_GRADIENTS = {
+  japan:'linear-gradient(135deg,#e8767a,#c0392b)',
+  korea:'linear-gradient(135deg,#5b86e5,#36d1dc)',
+  thai:'linear-gradient(135deg,#f7971e,#ffd200)',
+  sea:'linear-gradient(135deg,#11998e,#38ef7d)',
+  europe:'linear-gradient(135deg,#667eea,#764ba2)',
+  other:'linear-gradient(135deg,#f953c6,#b91d73)',
+};
+const CAT_EMOJI = { japan:'🗻', korea:'🏯', thai:'🛕', sea:'🌊', europe:'🏰', other:'✈️' };
+
+let travelFilter = 'all';
+
+function setTravelFilter(cat, btn) {
+  travelFilter = cat;
+  document.querySelectorAll('.travel-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTravelList();
+}
+
+function renderTravelList() {
+  const list = document.getElementById('travel-list');
+  if (!list) return;
+  const data = travelFilter === 'all' ? TRAVEL_DATA : TRAVEL_DATA.filter(t => t.cat === travelFilter);
+  if (!data.length) { list.innerHTML = '<div style="color:var(--muted);text-align:center;padding:30px">此分類暫無行程</div>'; return; }
+  list.innerHTML = data.map(t => {
+    const grad = CAT_GRADIENTS[t.cat] || CAT_GRADIENTS.other;
+    const emoji = CAT_EMOJI[t.cat] || '✈️';
+    return `<div class="travel-card" onclick="showTravelDetail(${t.id})">
+      <div style="width:100%;height:150px;position:relative;background:${grad}">
+        ${t.img ? `<img src="${t.img}" alt="${t.country}" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0" onerror="this.style.display='none'">` : ''}
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:52px;opacity:0.2;pointer-events:none">${emoji}</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(transparent,rgba(0,0,0,0.5))"></div>
+        <div style="position:absolute;bottom:8px;left:10px;color:#fff;font-size:11px;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.6)">${t.flag} ${t.country}</div>
+        <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.45);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px">${t.days}天</div>
+      </div>
+      <div class="travel-card-body">
+        <div class="travel-card-title">${t.title}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+          <div class="travel-card-meta">
+            <span class="travel-tag" style="background:rgba(255,140,0,0.1);color:var(--accent);border:1.5px solid rgba(255,160,60,0.3)">📅 ${t.date}</span>
+          </div>
+          <div class="travel-price">${t.price}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showTravelDetail(id) {
+  const t = TRAVEL_DATA.find(x => x.id === id);
+  if (!t) return;
+  document.getElementById('modal-title').textContent = t.flag + ' ' + t.title;
+  const descParagraphs = t.desc.split('\n\n').map(p => `<p style="margin-bottom:10px;font-size:13px;line-height:1.8;color:var(--text);opacity:0.85">${p}</p>`).join('');
+  const featuresHtml = t.features ? `
+    <div style="background:rgba(255,140,0,0.06);border:1.5px solid rgba(255,160,60,0.25);border-radius:12px;padding:12px 14px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:800;color:var(--accent3);margin-bottom:10px;letter-spacing:1px">🗺️ 行程特色</div>
+      ${t.features.map(f => `<div style="font-size:12.5px;color:var(--text);padding:4px 0;border-bottom:1px solid rgba(255,160,60,0.1)">${f}</div>`).join('')}
+    </div>` : '';
+  document.getElementById('modal-body').innerHTML = `
+    ${t.img ? `<div style="width:100%;height:190px;border-radius:14px;overflow:hidden;margin-bottom:14px"><img src="${t.img}" alt="${t.country}" style="width:100%;height:100%;object-fit:cover;display:block"></div>` : ''}
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+      <span class="travel-tag" style="background:rgba(46,204,113,0.1);color:var(--green2);border:1.5px solid rgba(46,204,113,0.3)">📅 出發：${t.date}</span>
+      <span class="travel-tag" style="background:rgba(255,140,0,0.08);color:var(--accent);border:1.5px solid rgba(255,160,60,0.25)">🗓 ${t.days}天行程</span>
+      <span class="travel-tag" style="background:rgba(0,0,0,0.04);color:var(--muted);border:1.5px solid var(--border)">📍 ${t.country}</span>
+    </div>
+    <div style="background:rgba(46,204,113,0.06);border:1.5px solid rgba(46,204,113,0.22);border-radius:12px;padding:11px 14px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:800;color:var(--green2);margin-bottom:5px">✨ 行程亮點</div>
+      <div style="font-size:13px;color:var(--text);font-weight:700">${t.highlight}</div>
+    </div>
+    ${descParagraphs}
+    ${featuresHtml}
+    <div style="background:linear-gradient(135deg,rgba(255,140,0,0.1),rgba(255,107,53,0.06));border:1.5px solid rgba(255,160,60,0.3);border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:2px">旅遊專用金可折抵</div>
+        <div style="font-size:22px;font-weight:900;color:var(--accent2)">${t.price}</div>
+      </div>
+      <div style="font-size:32px">✈️</div>
+    </div>
+    <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px">詳細行程請洽助理，用旅遊專用金圓你的夢！</div>
+  `;
+  document.getElementById('travel-modal').style.display = 'flex';
+}
+
+// 切到旅遊 tab 時渲染
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  if (btn.dataset.tab === 'tab-travel') {
+    btn.addEventListener('click', () => { setTimeout(renderTravelList, 50); });
+  }
+});
+
 </script>
 </body>
 </html>
